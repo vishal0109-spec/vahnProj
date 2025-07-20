@@ -1,97 +1,259 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Nearby Events - React Native App
 
-# Getting Started
+A cross-platform React Native application that allows users to browse and join community events around them. The app features both list and map views, event details with animations, and a complete state management system.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+### Core Functionality
+- 📱 **Cross-platform**: Runs on both iOS and Android
+- 📍 **Location-based**: Shows events based on user's current location
+- 🗺️ **Dual Views**: Toggle between List and Map views
+- 🎯 **Event Details**: Detailed view with animations and join functionality
+- 🔄 **State Management**: React Context + custom hooks
+- 🎨 **Material Design**: Beautiful UI with Material Design principles
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### Technical Features
+- **JSDoc Documentation**: Fully documented event models using JSDoc
+- **Custom Hooks**: `useCurrentLocation()` for geolocation
+- **Performance Optimized**: React.memo, optimized FlatList, lazy loading
+- **Animations**: Smooth transitions using React Native Animated API
+- **Error Handling**: Comprehensive error boundaries and states
+- **Offline Support**: Mock API with local data
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Project Structure
 
-```sh
-# Using npm
+```
+src/
+├── api/                    # Mock API layer
+│   └── eventsApi.js       # Events data and API functions
+├── Components/            # Reusable UI components
+│   ├── CustomButton.js    # Custom button component
+│   ├── EventCard.js       # Event card for list view
+│   ├── ViewToggle.js      # List/Map toggle switch
+│   ├── LoadingSpinner.js  # Animated loading indicator
+│   └── ErrorBoundary.js   # Error boundary component
+├── context/               # React Context for state management
+│   └── EventsContext.js   # Events context and provider
+├── hooks/                 # Custom React hooks
+│   └── useCurrentLocation.js # Geolocation hook
+├── Navigation/            # Navigation configuration
+│   └── Navigator.js       # Stack navigator setup
+├── Screens/               # Screen components
+│   ├── ListView/          # List view of events
+│   ├── MapView/           # Map view with pins
+│   └── EventDetail/       # Event detail screen
+├── types/                 # JavaScript type definitions (JSDoc)
+│   ├── eventTypes.js      # Event model type definitions
+│   └── navigationTypes.js # Navigation type definitions
+└── Utils/                 # Utility functions
+    
+    ├── constants.js       # App constants and styles
+    └── img.js             # Image utilities
+```
+
+## Technologies Used
+
+- **React Native**: Core framework
+- **React Navigation**: Navigation system
+- **React Native Maps**: Map integration
+- **JSDoc**: Type documentation for models
+- **React Context**: State management
+- **Animated API**: Smooth animations
+- **Geolocation**: Location services
+
+## Key Components
+
+### Event Model (JSDoc)
+```javascript
+/**
+ * @typedef {Object} EventDTO
+ * @property {string} id - Unique identifier
+ * @property {string} title - Short title of the event
+ * @property {string} description - Full description
+ * @property {string} startTime - ISO-8601 timestamp for start
+ * @property {string} endTime - ISO-8601 timestamp for end
+ * @property {Object} location - Event location coordinates
+ * @property {number} location.latitude - Latitude coordinate
+ * @property {number} location.longitude - Longitude coordinate
+ * @property {boolean} [isJoined] - RSVP status for current user
+ * @property {string} [imageUrl] - Optional event image URL
+ */
+```
+
+### Custom Hooks
+
+#### useCurrentLocation()
+- Handles device geolocation
+- Requests permissions appropriately
+- Provides fallback location
+- Returns: `{ latitude, longitude, error, loading }`
+
+#### useEvents() (Context Hook)
+- Manages events state
+- Handles join/leave functionality
+- Provides sorting utilities
+- Calculates distances
+
+### Performance Optimizations
+
+1. **React.memo**: Components memoized to prevent unnecessary re-renders
+2. **FlatList Optimization**: 
+   - `getItemLayout` for better scrolling
+   - `removeClippedSubviews` for memory efficiency
+   - Controlled render batching
+3. **Animation**: Native driver usage for 60fps animations
+4. **Image Caching**: Proper image loading and caching
+5. **Lazy Loading**: Components loaded on demand
+
+## UI/UX Features
+
+### Material Design Elements
+- Card-based layout with proper shadows
+- Consistent color scheme and typography
+- Touch feedback with `activeOpacity`
+- Proper spacing and visual hierarchy
+
+### Animations
+- **Screen Transitions**: Smooth navigation animations
+- **Join Button**: Scale and fade animations on state change
+- **Loading States**: Animated spinners and skeletons
+- **Pull to Refresh**: Native refresh indicators
+
+### Responsive Design
+- Adapts to different screen sizes
+- Proper safe area handling
+- Optimized for both orientations
+
+## Getting Started
+
+### Prerequisites
+- Node.js (>= 18)
+- React Native CLI
+- Android Studio / Xcode
+- Android SDK / iOS SDK
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd vahnProject
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **iOS Setup** (macOS only)
+   ```bash
+   cd ios && pod install && cd ..
+   ```
+
+4. **Start Metro bundler**
+   ```bash
+   npx react-native start
+   ```
+
+5. **Run the app**
+   ```bash
+   # For Android
+   npx react-native run-android
+   
+   # For iOS
+   npx react-native run-ios
+   ```
+
+### Development Commands
+
+```bash
+# Start Metro bundler
 npm start
 
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+# Run on Android
 npm run android
 
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# Run on iOS
 npm run ios
 
-# OR using Yarn
-yarn ios
+# Run tests
+npm test
+
+# Lint code
+npm run lint
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Mock Data
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+The app includes 20 mock events with:
+- Diverse event types (marathons, markets, concerts, etc.)
+- Realistic Indian city coordinates (Delhi, Jaipur, Mumbai, Bangalore, etc.)
+- Cultural events adapted for Indian context
+- Varied dates and times
 
-## Step 3: Modify your app
+## State Management Architecture
 
-Now that you have successfully run the app, let's make changes!
+```
+EventsProvider (Context)
+├── Events data
+├── Join/leave functionality
+├── Location-based sorting
+├── Distance calculations
+└── Loading/error states
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## Navigation Flow
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+```
+ListView ←→ MapView
+    ↓
+EventDetail (Modal)
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## Error Handling
 
-## Congratulations! :tada:
+- **Network errors**: Graceful fallbacks
+- **Location permissions**: Default location provided
+- **JavaScript errors**: Error boundary catches crashes
+- **Loading states**: Proper loading indicators
+- **Empty states**: Informative empty state messages
 
-You've successfully run and modified your React Native App. :partying_face:
+## Performance Considerations
 
-### Now what?
+1. **Memory Management**: Proper cleanup of listeners and animations
+2. **Bundle Size**: Minimal dependencies, tree-shaking enabled
+3. **Render Optimization**: Memoization and efficient re-renders
+4. **Image Optimization**: Lazy loading and caching
+5. **Map Performance**: Marker clustering for large datasets
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## Testing Strategy
 
-# Troubleshooting
+- Unit tests for utility functions
+- Integration tests for context providers
+- Component tests for UI elements
+- E2E tests for critical user flows
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Future Enhancements
 
-# Learn More
+1. **Real API Integration**: Replace mock API with real backend
+2. **Offline Support**: Cache events for offline viewing
+3. **Push Notifications**: Event reminders and updates
+4. **Social Features**: User profiles and event sharing
+5. **Advanced Filtering**: Date, category, and distance filters
+6. **Calendar Integration**: Add events to device calendar
 
-To learn more about React Native, take a look at the following resources:
+## Contributing
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+Built with ❤️ using React Native and modern development practices.
